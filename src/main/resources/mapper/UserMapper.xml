@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="gyh.gxsz.mapper.UserMapper">
+  <resultMap id="BaseResultMap" type="gyh.gxsz.bean.User">
+    <!--@mbg.generated-->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="house_id" jdbcType="VARCHAR" property="houseId" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="pact_time" jdbcType="TIMESTAMP" property="pactTime" />
+    <result column="landing_time" jdbcType="VARCHAR" property="landingTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, user_name, house_id, phone, pact_time, coupon_list, landing_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from user
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+    <select id="selectUserByName" parameterType="string" resultMap="BaseResultMap">
+      select <include refid="Base_Column_List"/>
+        from user
+        where user_name = #{userName}
+    </select>
+    <select id="selectUserByPhone" parameterType="string" resultMap="BaseResultMap">
+      select <include refid="Base_Column_List"/>
+        from user
+        where phone = #{phone}
+    </select>
+    <select id="getAll" resultMap="BaseResultMap">
+      select <include refid="Base_Column_List"/>
+        from user
+      <if test="search != null">
+        where ${search}
+      </if>
+    </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <!--@mbg.generated-->
+    delete from user
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="gyh.gxsz.bean.User" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into user (user_name, house_id, phone, 
+      pact_time, landing_time
+      )
+    values (#{userName,jdbcType=VARCHAR}, #{houseId,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
+      #{pactTime,jdbcType=TIMESTAMP}, #{landingTime,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="gyh.gxsz.bean.User" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userName != null">
+        user_name,
+      </if>
+      <if test="houseId != null">
+        house_id,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="pactTime != null">
+        pact_time,
+      </if>
+      <if test="landingTime != null">
+        landing_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userName != null">
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="houseId != null">
+        #{houseId,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="pactTime != null">
+        #{pactTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="landingTime != null">
+        #{landingTime,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="gyh.gxsz.bean.User">
+    <!--@mbg.generated-->
+    update user
+    <set>
+      <if test="userName != null">
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="houseId != null">
+        house_id = #{houseId,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="pactTime != null">
+        pact_time = #{pactTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="landingTime != null">
+        landing_time = #{landingTime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="gyh.gxsz.bean.User">
+    <!--@mbg.generated-->
+    update user
+    set user_name = #{userName,jdbcType=VARCHAR},
+      house_id = #{houseId,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      pact_time = #{pactTime,jdbcType=TIMESTAMP},
+      landing_time = #{landingTime,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

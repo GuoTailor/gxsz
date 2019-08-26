@@ -1,0 +1,12 @@
+{
+  "name": "测试api文档",
+  "version": "0.0.1",
+  "description": "共享书桌server接口文档",
+  "title": "共享书桌 api 文档",
+
+
+  "template": {
+  	"withCompare": true,
+  	"withGenerator": true
+  }
+}

@@ -1,0 +1,389 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="gyh.gxsz.mapper.AuditMapper">
+  <resultMap id="BaseResultMap" type="gyh.gxsz.bean.Audit">
+    <!--@mbg.generated-->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="uid" jdbcType="INTEGER" property="uid" />
+    <result column="number" jdbcType="VARCHAR" property="number" />
+    <result column="protocol_url" jdbcType="VARCHAR" property="protocolUrl" />
+    <result column="student_url" jdbcType="VARCHAR" property="studentUrl" />
+    <result column="desk1_url" jdbcType="VARCHAR" property="desk1Url" />
+    <result column="desk2_url" jdbcType="VARCHAR" property="desk2Url" />
+    <result column="way" jdbcType="VARCHAR" property="way" />
+    <result column="account_id" jdbcType="VARCHAR" property="accountId" />
+    <result column="state" jdbcType="VARCHAR" property="state" />
+    <result column="cause" jdbcType="VARCHAR" property="cause" />
+    <result column="submit_date" jdbcType="TIMESTAMP" property="submitDate" />
+    <result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, `uid`, `number`, protocol_url, student_url, desk1_url, desk2_url, way, account_id, 
+    `state`, cause, submit_date, update_date
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from audit
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+    <select id="getAllAudit" resultType="gyh.gxsz.bean.Approval">
+      select audit.id, u.user_name, u.house_id, u.pact_time, audit.state, audit.submit_date, audit.way
+      from audit
+        left join user u on audit.uid = u.id
+      <if test="search != null">
+        and ${search}
+      </if>
+    </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <!--@mbg.generated-->
+    delete from audit
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="gyh.gxsz.bean.Audit" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into audit (`uid`, `number`, protocol_url, 
+      student_url, desk1_url, desk2_url, 
+      way, account_id, `state`, 
+      cause, submit_date, update_date
+      )
+    values (#{uid,jdbcType=INTEGER}, #{number,jdbcType=VARCHAR}, #{protocolUrl,jdbcType=VARCHAR}, 
+      #{studentUrl,jdbcType=VARCHAR}, #{desk1Url,jdbcType=VARCHAR}, #{desk2Url,jdbcType=VARCHAR}, 
+      #{way,jdbcType=VARCHAR}, #{accountId,jdbcType=VARCHAR}, #{state,jdbcType=VARCHAR}, 
+      #{cause,jdbcType=VARCHAR}, #{submitDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="gyh.gxsz.bean.Audit" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into audit
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="uid != null">
+        `uid`,
+      </if>
+      <if test="number != null">
+        `number`,
+      </if>
+      <if test="protocolUrl != null">
+        protocol_url,
+      </if>
+      <if test="studentUrl != null">
+        student_url,
+      </if>
+      <if test="desk1Url != null">
+        desk1_url,
+      </if>
+      <if test="desk2Url != null">
+        desk2_url,
+      </if>
+      <if test="way != null">
+        way,
+      </if>
+      <if test="accountId != null">
+        account_id,
+      </if>
+      <if test="state != null">
+        `state`,
+      </if>
+      <if test="cause != null">
+        cause,
+      </if>
+      <if test="submitDate != null">
+        submit_date,
+      </if>
+      <if test="updateDate != null">
+        update_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="uid != null">
+        #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="number != null">
+        #{number,jdbcType=VARCHAR},
+      </if>
+      <if test="protocolUrl != null">
+        #{protocolUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="studentUrl != null">
+        #{studentUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="desk1Url != null">
+        #{desk1Url,jdbcType=VARCHAR},
+      </if>
+      <if test="desk2Url != null">
+        #{desk2Url,jdbcType=VARCHAR},
+      </if>
+      <if test="way != null">
+        #{way,jdbcType=VARCHAR},
+      </if>
+      <if test="accountId != null">
+        #{accountId,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="cause != null">
+        #{cause,jdbcType=VARCHAR},
+      </if>
+      <if test="submitDate != null">
+        #{submitDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null">
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="gyh.gxsz.bean.Audit">
+    <!--@mbg.generated-->
+    update audit
+    <set>
+      <if test="uid != null">
+        `uid` = #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="number != null">
+        `number` = #{number,jdbcType=VARCHAR},
+      </if>
+      <if test="protocolUrl != null">
+        protocol_url = #{protocolUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="studentUrl != null">
+        student_url = #{studentUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="desk1Url != null">
+        desk1_url = #{desk1Url,jdbcType=VARCHAR},
+      </if>
+      <if test="desk2Url != null">
+        desk2_url = #{desk2Url,jdbcType=VARCHAR},
+      </if>
+      <if test="way != null">
+        way = #{way,jdbcType=VARCHAR},
+      </if>
+      <if test="accountId != null">
+        account_id = #{accountId,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        `state` = #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="cause != null">
+        cause = #{cause,jdbcType=VARCHAR},
+      </if>
+      <if test="submitDate != null">
+        submit_date = #{submitDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null">
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="gyh.gxsz.bean.Audit">
+    <!--@mbg.generated-->
+    update audit
+    set `uid` = #{uid,jdbcType=INTEGER},
+      `number` = #{number,jdbcType=VARCHAR},
+      protocol_url = #{protocolUrl,jdbcType=VARCHAR},
+      student_url = #{studentUrl,jdbcType=VARCHAR},
+      desk1_url = #{desk1Url,jdbcType=VARCHAR},
+      desk2_url = #{desk2Url,jdbcType=VARCHAR},
+      way = #{way,jdbcType=VARCHAR},
+      account_id = #{accountId,jdbcType=VARCHAR},
+      `state` = #{state,jdbcType=VARCHAR},
+      cause = #{cause,jdbcType=VARCHAR},
+      submit_date = #{submitDate,jdbcType=TIMESTAMP},
+      update_date = #{updateDate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <insert id="insertOrUpdate" keyColumn="id" keyProperty="id" parameterType="gyh.gxsz.bean.Audit" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into audit
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      `uid`,
+      `number`,
+      protocol_url,
+      student_url,
+      desk1_url,
+      desk2_url,
+      way,
+      account_id,
+      `state`,
+      cause,
+      submit_date,
+      update_date,
+    </trim>
+    values
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      #{uid,jdbcType=INTEGER},
+      #{number,jdbcType=VARCHAR},
+      #{protocolUrl,jdbcType=VARCHAR},
+      #{studentUrl,jdbcType=VARCHAR},
+      #{desk1Url,jdbcType=VARCHAR},
+      #{desk2Url,jdbcType=VARCHAR},
+      #{way,jdbcType=VARCHAR},
+      #{accountId,jdbcType=VARCHAR},
+      #{state,jdbcType=VARCHAR},
+      #{cause,jdbcType=VARCHAR},
+      #{submitDate,jdbcType=TIMESTAMP},
+      #{updateDate,jdbcType=TIMESTAMP},
+    </trim>
+    on duplicate key update 
+    <trim suffixOverrides=",">
+      <if test="id != null">
+        id = #{id,jdbcType=INTEGER},
+      </if>
+      `uid` = #{uid,jdbcType=INTEGER},
+      `number` = #{number,jdbcType=VARCHAR},
+      protocol_url = #{protocolUrl,jdbcType=VARCHAR},
+      student_url = #{studentUrl,jdbcType=VARCHAR},
+      desk1_url = #{desk1Url,jdbcType=VARCHAR},
+      desk2_url = #{desk2Url,jdbcType=VARCHAR},
+      way = #{way,jdbcType=VARCHAR},
+      account_id = #{accountId,jdbcType=VARCHAR},
+      `state` = #{state,jdbcType=VARCHAR},
+      cause = #{cause,jdbcType=VARCHAR},
+      submit_date = #{submitDate,jdbcType=TIMESTAMP},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+    </trim>
+  </insert>
+  <insert id="insertOrUpdateSelective" keyColumn="id" keyProperty="id" parameterType="gyh.gxsz.bean.Audit" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into audit
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="uid != null">
+        `uid`,
+      </if>
+      <if test="number != null">
+        `number`,
+      </if>
+      <if test="protocolUrl != null">
+        protocol_url,
+      </if>
+      <if test="studentUrl != null">
+        student_url,
+      </if>
+      <if test="desk1Url != null">
+        desk1_url,
+      </if>
+      <if test="desk2Url != null">
+        desk2_url,
+      </if>
+      <if test="way != null">
+        way,
+      </if>
+      <if test="accountId != null">
+        account_id,
+      </if>
+      <if test="state != null">
+        `state`,
+      </if>
+      <if test="cause != null">
+        cause,
+      </if>
+      <if test="submitDate != null">
+        submit_date,
+      </if>
+      <if test="updateDate != null">
+        update_date,
+      </if>
+    </trim>
+    values
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="uid != null">
+        #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="number != null">
+        #{number,jdbcType=VARCHAR},
+      </if>
+      <if test="protocolUrl != null">
+        #{protocolUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="studentUrl != null">
+        #{studentUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="desk1Url != null">
+        #{desk1Url,jdbcType=VARCHAR},
+      </if>
+      <if test="desk2Url != null">
+        #{desk2Url,jdbcType=VARCHAR},
+      </if>
+      <if test="way != null">
+        #{way,jdbcType=VARCHAR},
+      </if>
+      <if test="accountId != null">
+        #{accountId,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="cause != null">
+        #{cause,jdbcType=VARCHAR},
+      </if>
+      <if test="submitDate != null">
+        #{submitDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null">
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+    on duplicate key update 
+    <trim suffixOverrides=",">
+      <if test="id != null">
+        id = #{id,jdbcType=INTEGER},
+      </if>
+      <if test="uid != null">
+        `uid` = #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="number != null">
+        `number` = #{number,jdbcType=VARCHAR},
+      </if>
+      <if test="protocolUrl != null">
+        protocol_url = #{protocolUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="studentUrl != null">
+        student_url = #{studentUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="desk1Url != null">
+        desk1_url = #{desk1Url,jdbcType=VARCHAR},
+      </if>
+      <if test="desk2Url != null">
+        desk2_url = #{desk2Url,jdbcType=VARCHAR},
+      </if>
+      <if test="way != null">
+        way = #{way,jdbcType=VARCHAR},
+      </if>
+      <if test="accountId != null">
+        account_id = #{accountId,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        `state` = #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="cause != null">
+        cause = #{cause,jdbcType=VARCHAR},
+      </if>
+      <if test="submitDate != null">
+        submit_date = #{submitDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null">
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+    <select id="selectByUserId" parameterType="int" resultMap="BaseResultMap">
+      select <include refid="Base_Column_List" />
+    from audit
+        where uid = #{userId}
+    </select>
+</mapper>

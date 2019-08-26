@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="gyh.gxsz.mapper.MerchantMapper">
+    <resultMap id="BaseResultMap" type="gyh.gxsz.bean.Merchant">
+        <!--@mbg.generated-->
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="site" jdbcType="VARCHAR" property="site"/>
+        <result column="contact" jdbcType="VARCHAR" property="contact"/>
+        <result column="number" jdbcType="VARCHAR" property="number"/>
+        <result column="account" jdbcType="VARCHAR" property="account"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        id, `name`, site, contact, `number`, account, `password`, create_time
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        <!--@mbg.generated-->
+        select
+        <include refid="Base_Column_List"/>
+        from merchant
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="getAll" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/>
+        from merchant
+      <if test="search != null">
+        where ${search}
+      </if>
+    </select>
+    <select id="selectByAccount" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/>
+        from merchant
+        where account = #{account}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        <!--@mbg.generated-->
+        delete from merchant
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="gyh.gxsz.bean.Merchant" useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into merchant (`name`, site, contact,
+        `number`, account, `password`,
+        create_time)
+        values (#{name,jdbcType=VARCHAR}, #{site,jdbcType=VARCHAR}, #{contact,jdbcType=VARCHAR},
+        #{number,jdbcType=VARCHAR}, #{account,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
+        #{createTime,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="gyh.gxsz.bean.Merchant"
+            useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into merchant
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null">
+                `name`,
+            </if>
+            <if test="site != null">
+                site,
+            </if>
+            <if test="contact != null">
+                contact,
+            </if>
+            <if test="number != null">
+                `number`,
+            </if>
+            <if test="account != null">
+                account,
+            </if>
+            <if test="password != null">
+                `password`,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="site != null">
+                #{site,jdbcType=VARCHAR},
+            </if>
+            <if test="contact != null">
+                #{contact,jdbcType=VARCHAR},
+            </if>
+            <if test="number != null">
+                #{number,jdbcType=VARCHAR},
+            </if>
+            <if test="account != null">
+                #{account,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="gyh.gxsz.bean.Merchant">
+        <!--@mbg.generated-->
+        update merchant
+        <set>
+            <if test="name != null">
+                `name` = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="site != null">
+                site = #{site,jdbcType=VARCHAR},
+            </if>
+            <if test="contact != null">
+                contact = #{contact,jdbcType=VARCHAR},
+            </if>
+            <if test="number != null">
+                `number` = #{number,jdbcType=VARCHAR},
+            </if>
+            <if test="account != null">
+                account = #{account,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                `password` = #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="gyh.gxsz.bean.Merchant">
+        <!--@mbg.generated-->
+        update merchant
+        set `name` = #{name,jdbcType=VARCHAR},
+        site = #{site,jdbcType=VARCHAR},
+        contact = #{contact,jdbcType=VARCHAR},
+        `number` = #{number,jdbcType=VARCHAR},
+        account = #{account,jdbcType=VARCHAR},
+        `password` = #{password,jdbcType=VARCHAR},
+        create_time = #{createTime,jdbcType=TIMESTAMP}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <insert id="insertOrUpdate" keyColumn="id" keyProperty="id" parameterType="gyh.gxsz.bean.Merchant"
+            useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into merchant
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            `name`,
+            site,
+            contact,
+            `number`,
+            account,
+            `password`,
+            create_time,
+        </trim>
+        values
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            #{name,jdbcType=VARCHAR},
+            #{site,jdbcType=VARCHAR},
+            #{contact,jdbcType=VARCHAR},
+            #{number,jdbcType=VARCHAR},
+            #{account,jdbcType=VARCHAR},
+            #{password,jdbcType=VARCHAR},
+            #{createTime,jdbcType=TIMESTAMP},
+        </trim>
+        on duplicate key update
+        <trim suffixOverrides=",">
+            <if test="id != null">
+                id = #{id,jdbcType=INTEGER},
+            </if>
+            `name` = #{name,jdbcType=VARCHAR},
+            site = #{site,jdbcType=VARCHAR},
+            contact = #{contact,jdbcType=VARCHAR},
+            `number` = #{number,jdbcType=VARCHAR},
+            account = #{account,jdbcType=VARCHAR},
+            `password` = #{password,jdbcType=VARCHAR},
+            create_time = #{createTime,jdbcType=TIMESTAMP},
+        </trim>
+    </insert>
+    <insert id="insertOrUpdateSelective" keyColumn="id" keyProperty="id" parameterType="gyh.gxsz.bean.Merchant"
+            useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into merchant
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="name != null">
+                `name`,
+            </if>
+            <if test="site != null">
+                site,
+            </if>
+            <if test="contact != null">
+                contact,
+            </if>
+            <if test="number != null">
+                `number`,
+            </if>
+            <if test="account != null">
+                account,
+            </if>
+            <if test="password != null">
+                `password`,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+        </trim>
+        values
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="site != null">
+                #{site,jdbcType=VARCHAR},
+            </if>
+            <if test="contact != null">
+                #{contact,jdbcType=VARCHAR},
+            </if>
+            <if test="number != null">
+                #{number,jdbcType=VARCHAR},
+            </if>
+            <if test="account != null">
+                #{account,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+        on duplicate key update
+        <trim suffixOverrides=",">
+            <if test="id != null">
+                id = #{id,jdbcType=INTEGER},
+            </if>
+            <if test="name != null">
+                `name` = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="site != null">
+                site = #{site,jdbcType=VARCHAR},
+            </if>
+            <if test="contact != null">
+                contact = #{contact,jdbcType=VARCHAR},
+            </if>
+            <if test="number != null">
+                `number` = #{number,jdbcType=VARCHAR},
+            </if>
+            <if test="account != null">
+                account = #{account,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                `password` = #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+</mapper>

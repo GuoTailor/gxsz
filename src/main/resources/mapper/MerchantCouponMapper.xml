@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="gyh.gxsz.mapper.MerchantCouponMapper">
+  <resultMap id="BaseResultMap" type="gyh.gxsz.bean.MerchantCoupon">
+    <!--@mbg.generated-->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="number" jdbcType="VARCHAR" property="number" />
+    <result column="use_time" jdbcType="TIMESTAMP" property="useTime" />
+    <result column="denomination" jdbcType="VARCHAR" property="denomination" />
+    <result column="m_id" jdbcType="INTEGER" property="mId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, `name`, `number`, use_time, denomination, m_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from merchant_coupon
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <!--@mbg.generated-->
+    delete from merchant_coupon
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="gyh.gxsz.bean.MerchantCoupon" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into merchant_coupon (`name`, `number`, use_time, 
+      denomination, m_id)
+    values (#{name,jdbcType=VARCHAR}, #{number,jdbcType=VARCHAR}, #{useTime,jdbcType=TIMESTAMP}, 
+      #{denomination,jdbcType=VARCHAR}, #{mId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="gyh.gxsz.bean.MerchantCoupon" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into merchant_coupon
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="name != null">
+        `name`,
+      </if>
+      <if test="number != null">
+        `number`,
+      </if>
+      <if test="useTime != null">
+        use_time,
+      </if>
+      <if test="denomination != null">
+        denomination,
+      </if>
+      <if test="mId != null">
+        m_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="number != null">
+        #{number,jdbcType=VARCHAR},
+      </if>
+      <if test="useTime != null">
+        #{useTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="denomination != null">
+        #{denomination,jdbcType=VARCHAR},
+      </if>
+      <if test="mId != null">
+        #{mId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="gyh.gxsz.bean.MerchantCoupon">
+    <!--@mbg.generated-->
+    update merchant_coupon
+    <set>
+      <if test="name != null">
+        `name` = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="number != null">
+        `number` = #{number,jdbcType=VARCHAR},
+      </if>
+      <if test="useTime != null">
+        use_time = #{useTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="denomination != null">
+        denomination = #{denomination,jdbcType=VARCHAR},
+      </if>
+      <if test="mId != null">
+        m_id = #{mId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="gyh.gxsz.bean.MerchantCoupon">
+    <!--@mbg.generated-->
+    update merchant_coupon
+    set `name` = #{name,jdbcType=VARCHAR},
+      `number` = #{number,jdbcType=VARCHAR},
+      use_time = #{useTime,jdbcType=TIMESTAMP},
+      denomination = #{denomination,jdbcType=VARCHAR},
+      m_id = #{mId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <insert id="insertOrUpdate" keyColumn="id" keyProperty="id" parameterType="gyh.gxsz.bean.MerchantCoupon" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into merchant_coupon
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      `name`,
+      `number`,
+      use_time,
+      denomination,
+      m_id,
+    </trim>
+    values
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      #{name,jdbcType=VARCHAR},
+      #{number,jdbcType=VARCHAR},
+      #{useTime,jdbcType=TIMESTAMP},
+      #{denomination,jdbcType=VARCHAR},
+      #{mId,jdbcType=INTEGER},
+    </trim>
+    on duplicate key update 
+    <trim suffixOverrides=",">
+      <if test="id != null">
+        id = #{id,jdbcType=INTEGER},
+      </if>
+      `name` = #{name,jdbcType=VARCHAR},
+      `number` = #{number,jdbcType=VARCHAR},
+      use_time = #{useTime,jdbcType=TIMESTAMP},
+      denomination = #{denomination,jdbcType=VARCHAR},
+      m_id = #{mId,jdbcType=INTEGER},
+    </trim>
+  </insert>
+  <insert id="insertOrUpdateSelective" keyColumn="id" keyProperty="id" parameterType="gyh.gxsz.bean.MerchantCoupon" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into merchant_coupon
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="name != null">
+        `name`,
+      </if>
+      <if test="number != null">
+        `number`,
+      </if>
+      <if test="useTime != null">
+        use_time,
+      </if>
+      <if test="denomination != null">
+        denomination,
+      </if>
+      <if test="mId != null">
+        m_id,
+      </if>
+    </trim>
+    values
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="number != null">
+        #{number,jdbcType=VARCHAR},
+      </if>
+      <if test="useTime != null">
+        #{useTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="denomination != null">
+        #{denomination,jdbcType=VARCHAR},
+      </if>
+      <if test="mId != null">
+        #{mId,jdbcType=INTEGER},
+      </if>
+    </trim>
+    on duplicate key update 
+    <trim suffixOverrides=",">
+      <if test="id != null">
+        id = #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        `name` = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="number != null">
+        `number` = #{number,jdbcType=VARCHAR},
+      </if>
+      <if test="useTime != null">
+        use_time = #{useTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="denomination != null">
+        denomination = #{denomination,jdbcType=VARCHAR},
+      </if>
+      <if test="mId != null">
+        m_id = #{mId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+</mapper>
