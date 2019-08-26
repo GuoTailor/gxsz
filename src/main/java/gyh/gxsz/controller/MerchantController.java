@@ -46,6 +46,22 @@ public class MerchantController {
     }
 
     /**
+     * @api {get} /merchant/{id} 获取商家信息
+     * @apiDescription  获取商家信息
+     * @apiName getMerchant
+     * @apiVersion 0.0.1
+     * @apiParam {Integer} id 商家id
+     * @apiSuccessExample {json} 成功返回:
+     * {"code":0,"msg":"成功","data":null}
+     * @apiGroup merchant
+     * @apiPermission admin
+     */
+    @GetMapping("/{id}")
+    public RespBody getMerchant(@PathVariable Integer id) {
+        return new RespBody<>(0, merchantService.selectByPrimaryKey(id), "成功");
+    }
+
+    /**
      * @api {post} /merchant 添加商家
      * @apiDescription  添加商家
      * @apiName addMerchant

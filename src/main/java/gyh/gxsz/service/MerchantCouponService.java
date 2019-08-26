@@ -28,6 +28,7 @@ public class MerchantCouponService {
             return 1;
         }
 
+        return 0;
     }
 
     public int deleteByPrimaryKey(Integer id) {

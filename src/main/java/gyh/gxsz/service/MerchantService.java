@@ -32,8 +32,6 @@ public class MerchantService{
         merchant.setPassword(UserUtils.passwordEncoder(merchant.getPassword()));
         merchantMapper.insert(merchant);
     }
-
-
     
     public int deleteByPrimaryKey(Integer id) {
         return merchantMapper.deleteByPrimaryKey(id);
