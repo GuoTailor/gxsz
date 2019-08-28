@@ -30,7 +30,7 @@ public class MerchantService{
 
     public void addMerchant(Merchant merchant) {
         merchant.setPassword(UserUtils.passwordEncoder(merchant.getPassword()));
-        merchantMapper.insert(merchant);
+        merchantMapper.insertSelective(merchant);
     }
     
     public int deleteByPrimaryKey(Integer id) {

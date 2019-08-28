@@ -58,7 +58,7 @@ public class RespBody<T> {
     }
 
     public int getCode() {
-        return code > 0 ? 1 : 0;
+        return code ;
     }
 
     public void setCode(int code) {

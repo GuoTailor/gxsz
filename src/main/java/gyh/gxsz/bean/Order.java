@@ -1,5 +1,6 @@
 package gyh.gxsz.bean;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
@@ -15,6 +16,7 @@ import java.util.Date;
  * @apiParam {String} type A型和B型
  * @apiParam {String} status 0:待配送；1：配送完成
  * @apiParam {Date} orderTime 下单时间
+ * @apiParam {String} deliverymanId 配送员id
  */
 public class Order {
     private Integer id;
@@ -57,8 +59,14 @@ public class Order {
     /**
      * 下单时间
      */
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date orderTime;
+
+    /**
+     * 配送员id
+     */
+    private String deliverymanId;
 
     public Integer getId() {
         return id;
@@ -130,5 +138,13 @@ public class Order {
 
     public void setOrderTime(Date orderTime) {
         this.orderTime = orderTime;
+    }
+
+    public String getDeliverymanId() {
+        return deliverymanId;
+    }
+
+    public void setDeliverymanId(String deliverymanId) {
+        this.deliverymanId = deliverymanId;
     }
 }

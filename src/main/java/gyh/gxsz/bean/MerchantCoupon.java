@@ -1,5 +1,7 @@
 package gyh.gxsz.bean;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 /**
@@ -21,6 +23,7 @@ public class MerchantCoupon {
     /**
      * 使用时间
      */
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date useTime;
 
     /**

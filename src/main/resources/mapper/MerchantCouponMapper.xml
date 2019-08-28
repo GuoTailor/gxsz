@@ -21,6 +21,13 @@
     from merchant_coupon
     where id = #{id,jdbcType=INTEGER}
   </select>
+    <select id="getAll" resultMap="BaseResultMap">
+      select <include refid="Base_Column_List"/>
+        from merchant_coupon
+      <if test="search != null">
+        and ${search}
+      </if>
+    </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     <!--@mbg.generated-->
     delete from merchant_coupon

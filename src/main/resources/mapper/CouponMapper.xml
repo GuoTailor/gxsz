@@ -326,11 +326,19 @@
       </if>
     </trim>
   </insert>
-    <select id="getAll" resultMap="BaseResultMap">
+    <select id="getAllOnEnable" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List" />
         from coupon
         where enable = 1
+        <if test="search != null">
+            and ${search}
+        </if>
+    </select>
+  <select id="getAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from coupon
         <if test="search != null">
             and ${search}
         </if>

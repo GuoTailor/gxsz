@@ -1,6 +1,7 @@
 package gyh.gxsz;
 
 import gyh.gxsz.common.SmsSample;
+import gyh.gxsz.common.Util;
 import org.apache.tomcat.util.security.MD5Encoder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,11 +15,7 @@ public class GxszApplicationTests {
 
     @Test
     public void contextLoads() {
-        String r = "nmka123456789102345";
-        String md1 = SmsSample.md5(r);
-        String md2 = MD5Encoder.encode(r.getBytes());
-        System.out.println(md1);
-        System.out.println(md2);
+        System.out.println(Util.createDate(1564675200000L));
     }
 
 

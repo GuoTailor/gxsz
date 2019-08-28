@@ -65,6 +65,29 @@ public class UserController {
     }
 
     /**
+     * @api {post} /user 添加用户
+     * @apiDescription  添加用户
+     * @apiName addUser
+     * @apiVersion 0.0.1
+     * @apiParam {String} [userName] 用户名
+     * @apiParam {String} [houseId] 寝室号
+     * @apiParam {String} [phone] 手机号
+     * @apiParam {Date} [pactTime] 合同时间格式：yyyy-MM-dd HH:mm:ss 如：2019-08-26 00:07:28
+     * @apiSuccessExample {json} 成功返回:
+     * {"code":0,"msg":"成功","data":1}
+     * @apiGroup user
+     * @apiPermission admin
+     */
+    @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
+    public RespBody addUser(User user) {
+        if (userService.selectUserByPhone(user.getPhone()) != null) {
+            return new RespBody(1,"存在相同手机号");
+        }
+        return new RespBody<>(0, userService.insertSelective(user), "成功");
+    }
+
+    /**
      * @api {delete} /user/{id} 删除用户的信息
      * @apiDescription  删除用户的信息
      * @apiName deleteUser

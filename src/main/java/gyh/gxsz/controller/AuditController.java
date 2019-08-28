@@ -4,7 +4,6 @@ import gyh.gxsz.bean.Audit;
 import gyh.gxsz.bean.RespBody;
 import gyh.gxsz.common.page.PageQuery;
 import gyh.gxsz.service.AuditService;
-import org.hibernate.validator.constraints.Range;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -123,7 +122,7 @@ public class AuditController {
     /**
      * @api {get} /audit 获取自己提交的审核
      * @apiDescription  获取自己提交的审核
-     * @apiName getAudio
+     * @apiName getAudit
      * @apiVersion 0.0.1
      * @apiSuccessExample {json} 成功返回:
      * {"code":0,"msg":"成功","data":null}
@@ -131,8 +130,8 @@ public class AuditController {
      * @apiPermission token
      */
     @GetMapping()
-    public RespBody getAudio() {
-        return new RespBody<>(0, auditService.getAudio(), "成功");
+    public RespBody getAudit() {
+        return new RespBody<>(0, auditService.getAudit(), "成功");
     }
 
     /**
@@ -172,4 +171,20 @@ public class AuditController {
         return new RespBody(0, "成功");
     }
 
+    /**
+     * @api {get} /audit/{id} 获取审核
+     * @apiDescription  获取审核
+     * @apiName getAuditById
+     * @apiVersion 0.0.1
+     * @apiParam {Integer} id 订单id
+     * @apiSuccessExample {json} 成功返回:
+     * {"code":0,"msg":"成功","data":null}
+     * @apiGroup audit
+     * @apiPermission admin
+     */
+    @GetMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public RespBody getAuditById(@PathVariable Integer id) {
+        return new RespBody<>(0, auditService.selectByPrimaryKey(id),"成功");
+    }
 }

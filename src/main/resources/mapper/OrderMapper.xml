@@ -12,10 +12,12 @@
     <result column="type" jdbcType="VARCHAR" property="type" />
     <result column="status" jdbcType="VARCHAR" property="status" />
     <result column="order_time" jdbcType="TIMESTAMP" property="orderTime" />
+    <result column="deliveryman_id" jdbcType="VARCHAR" property="deliverymanId" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
-    id, `name`, `number`, student_number, house_id, referrer_id, `type`, `status`, order_time
+    id, `name`, `number`, student_number, house_id, referrer_id, `type`, `status`, order_time, 
+    deliveryman_id
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     <!--@mbg.generated-->
@@ -23,6 +25,14 @@
     <include refid="Base_Column_List" />
     from `order`
     where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="getAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from `order`
+    <if test="search != null">
+      and ${search}
+    </if>
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     <!--@mbg.generated-->
@@ -33,10 +43,12 @@
     <!--@mbg.generated-->
     insert into `order` (`name`, `number`, student_number,
       house_id, referrer_id, `type`, 
-      `status`, order_time)
+      `status`, order_time, deliveryman_id
+      )
     values (#{name,jdbcType=VARCHAR}, #{number,jdbcType=VARCHAR}, #{studentNumber,jdbcType=VARCHAR}, 
       #{houseId,jdbcType=VARCHAR}, #{referrerId,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
-      #{status,jdbcType=VARCHAR}, #{orderTime,jdbcType=TIMESTAMP})
+      #{status,jdbcType=VARCHAR}, #{orderTime,jdbcType=TIMESTAMP}, #{deliverymanId,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="gyh.gxsz.bean.Order" useGeneratedKeys="true">
     <!--@mbg.generated-->
@@ -66,6 +78,9 @@
       <if test="orderTime != null">
         order_time,
       </if>
+      <if test="deliverymanId != null">
+        deliveryman_id,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="name != null">
@@ -91,6 +106,9 @@
       </if>
       <if test="orderTime != null">
         #{orderTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deliverymanId != null">
+        #{deliverymanId,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -122,6 +140,9 @@
       <if test="orderTime != null">
         order_time = #{orderTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="deliverymanId != null">
+        deliveryman_id = #{deliverymanId,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -135,7 +156,8 @@
       referrer_id = #{referrerId,jdbcType=VARCHAR},
       `type` = #{type,jdbcType=VARCHAR},
       `status` = #{status,jdbcType=VARCHAR},
-      order_time = #{orderTime,jdbcType=TIMESTAMP}
+      order_time = #{orderTime,jdbcType=TIMESTAMP},
+      deliveryman_id = #{deliverymanId,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <insert id="insertOrUpdate" keyColumn="id" keyProperty="id" parameterType="gyh.gxsz.bean.Order" useGeneratedKeys="true">
@@ -153,6 +175,7 @@
       `type`,
       `status`,
       order_time,
+      deliveryman_id,
     </trim>
     values
     <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -167,6 +190,7 @@
       #{type,jdbcType=VARCHAR},
       #{status,jdbcType=VARCHAR},
       #{orderTime,jdbcType=TIMESTAMP},
+      #{deliverymanId,jdbcType=VARCHAR},
     </trim>
     on duplicate key update 
     <trim suffixOverrides=",">
@@ -181,6 +205,7 @@
       `type` = #{type,jdbcType=VARCHAR},
       `status` = #{status,jdbcType=VARCHAR},
       order_time = #{orderTime,jdbcType=TIMESTAMP},
+      deliveryman_id = #{deliverymanId,jdbcType=VARCHAR},
     </trim>
   </insert>
   <insert id="insertOrUpdateSelective" keyColumn="id" keyProperty="id" parameterType="gyh.gxsz.bean.Order" useGeneratedKeys="true">
@@ -214,6 +239,9 @@
       <if test="orderTime != null">
         order_time,
       </if>
+      <if test="deliverymanId != null">
+        deliveryman_id,
+      </if>
     </trim>
     values
     <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -244,6 +272,9 @@
       <if test="orderTime != null">
         #{orderTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="deliverymanId != null">
+        #{deliverymanId,jdbcType=VARCHAR},
+      </if>
     </trim>
     on duplicate key update 
     <trim suffixOverrides=",">
@@ -273,6 +304,9 @@
       </if>
       <if test="orderTime != null">
         order_time = #{orderTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deliverymanId != null">
+        deliveryman_id = #{deliverymanId,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>

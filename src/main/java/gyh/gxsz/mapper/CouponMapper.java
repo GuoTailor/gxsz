@@ -22,6 +22,8 @@ public interface CouponMapper {
 
     int updateByPrimaryKey(Coupon record);
 
+    List<Coupon> getAllOnEnable(String search);
+
     List<Coupon> getAll(String search);
 
     List<Coupon> selectMy(Integer userId);

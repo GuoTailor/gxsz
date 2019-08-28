@@ -55,21 +55,12 @@ public class AuditService {
         return file;
     }
 
-    private String getRelativePath(String fileName, int id) {
-        // 文件后缀
-        String suffixName = "";
-        if (fileName != null)
-            suffixName = fileName.substring(fileName.lastIndexOf("."));
-        int index = (int) Math.ceil(id / dirMaxNum);
-        return filePath + index + File.separatorChar + id + "-" + UUID.randomUUID() + suffixName;
-    }
-
     public String uploadFile(MultipartFile file, String seat) throws IOException {
         int id = UserUtils.getCurrentUser().getId();
         String path = "";
         if (file != null) {
             File newFile = getFile(file.getOriginalFilename(), id);
-            path = getRelativePath(file.getOriginalFilename(), id);
+            path = newFile.getAbsolutePath().replaceFirst(headPath, "").trim();
             file.transferTo(newFile);
         }
         Audit audit = new Audit();
@@ -103,7 +94,7 @@ public class AuditService {
         int id = UserUtils.getCurrentUser().getId();
         audit.setUid(id);
         File newFile = getFile(file.getOriginalFilename(), id);
-        String path = getRelativePath(file.getOriginalFilename(), id);
+        String path = newFile.getAbsolutePath().replaceFirst(headPath, "").trim();
         file.transferTo(newFile);
         switch (seat) {
             case "protocol": {
@@ -148,7 +139,7 @@ public class AuditService {
         return 0;
     }
 
-    public Audit getAudio() {
+    public Audit getAudit() {
         int id = UserUtils.getCurrentUser().getId();
         return auditMapper.selectByUserId(id);
     }

@@ -1,5 +1,6 @@
 package gyh.gxsz.bean;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.hibernate.validator.constraints.Range;
 
 import javax.validation.constraints.NotBlank;
@@ -68,11 +69,13 @@ public class Audit {
     /**
      * 申请时间
      */
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date submitDate;
 
     /**
      * 最后修改时间
      */
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date updateDate;
 
     public Integer getId() {

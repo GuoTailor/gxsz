@@ -2,7 +2,6 @@ package gyh.gxsz.service;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import gyh.gxsz.bean.RespBody;
 import gyh.gxsz.bean.UserCoupon;
 import gyh.gxsz.common.UserUtils;
 import gyh.gxsz.common.Util;
@@ -30,6 +29,14 @@ public class CouponService {
     private CouponMapper couponMapper;
     @Autowired
     private UserCouponService userCouponService;
+    @Autowired
+    private MerchantService merchantService;
+
+    public PageView<Coupon> getAllOnEnable(PageQuery pageQuery) {
+        Page<Coupon> page = PageHelper.startPage(pageQuery);
+        List<Coupon> coupons = couponMapper.getAllOnEnable(pageQuery.buildSubSql());
+        return PageView.build(page);
+    }
 
     public PageView<Coupon> getAll(PageQuery pageQuery) {
         Page<Coupon> page = PageHelper.startPage(pageQuery);
@@ -61,6 +68,19 @@ public class CouponService {
     public List<Coupon> couponList() {
         Integer id = UserUtils.getCurrentUser().getId();
         return couponMapper.selectMy(id);
+    }
+
+    public int addCoupon(Coupon coupon) {
+        if (coupon.getMerchantId() != null) {
+            if (merchantService.selectByPrimaryKey(coupon.getMerchantId()) == null) {
+                return 1;
+            }
+        }
+        if (coupon.getMerchantId() == null) {
+            return 1;
+        }
+        couponMapper.insertSelective(coupon);
+        return 0;
     }
 
     public int deleteByPrimaryKey(Integer id) {

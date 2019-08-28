@@ -23,9 +23,9 @@ public class CouponController {
     }
 
     /**
-     * @api {get} /coupon 获取所有优惠券
-     * @apiDescription  获取所有优惠券
-     * @apiName getAll
+     * @api {get} /coupon 获取所有已启用的优惠券
+     * @apiDescription  获取所有已启用的优惠券
+     * @apiName getAllOnEnable
      * @apiVersion 0.0.1
      * @apiUse PageQuery
      * @apiSuccessExample {json} 成功返回:
@@ -34,8 +34,8 @@ public class CouponController {
      * @apiPermission token
      */
     @GetMapping()
-    public RespBody getAll(@Valid PageQuery pageQuery) {
-        return new RespBody<>(0, couponService.getAll(pageQuery), "成功");
+    public RespBody getAllOnEnable(@Valid PageQuery pageQuery) {
+        return new RespBody<>(0, couponService.getAllOnEnable(pageQuery), "成功");
     }
 
     /**
@@ -53,7 +53,51 @@ public class CouponController {
         return new RespBody<>(0, couponService.couponList(), "成功");
     }
 
-    //TODO 添加优惠券
+    /**
+     * @api {get} /coupon/all 获取所有优惠券
+     * @apiDescription  获取所有的优惠券
+     * @apiName getAll
+     * @apiVersion 0.0.1
+     * @apiUse PageQuery
+     * @apiSuccessExample {json} 成功返回:
+     * {"code":0,"msg":"成功","data":null}
+     * @apiGroup coupon
+     * @apiPermission token
+     */
+    @GetMapping("/all")
+    @PreAuthorize("hasRole('ADMIN')")
+    public RespBody getAll(@Valid PageQuery pageQuery) {
+        return new RespBody<>(0, couponService.getAll(pageQuery), "成功");
+    }
+
+    /**
+     * @api {post} /coupon 添加优惠券
+     * @apiDescription  添加优惠券
+     * @apiName addCoupon
+     * @apiParam {String} [name] 优惠卷名称
+     * @apiParam {String} [describe] 描述
+     * @apiParam {String} [denomination] 面额
+     * @apiParam {String} [condition] 条件，需要满足该条件才能减
+     * @apiParam {Integer} [count] 剩余数量
+     * @apiParam {Integer} [quantity] 总量
+     * @apiParam {Date} [startTime] 开始日期
+     * @apiParam {Date} [endTime] 结束日期
+     * @apiParam {Integer} merchantId 商家id
+     * @apiParam {String} [enable] 是否启用：0：禁用，1：启用
+     * @apiVersion 0.0.1
+     * @apiSuccessExample {json} 成功返回:
+     * {"code":0,"msg":"成功","data":[]}
+     * @apiSuccessExample {json} 商家id不存在:
+     * {"code":1,"msg":"商家id不存在","data":[]}
+     * @apiGroup coupon
+     * @apiPermission token
+     */
+    @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
+    public RespBody addCoupon(Coupon coupon) {
+        return new RespBody<>(couponService.addCoupon(coupon), "成功")
+                .put(1, "商家id不存在");
+    }
 
     /**
      * @api {put} /coupon 修改优惠券
@@ -67,8 +111,8 @@ public class CouponController {
      * @apiParam {String} [condition] 条件，需要满足该条件才能减
      * @apiParam {Integer} [count] 剩余数量
      * @apiParam {Integer} [quantity] 总量
-     * @apiParam {Date} [startTime] 开始日期
-     * @apiParam {Date} [endTime] 结束日期
+     * @apiParam {Date} [startTime] 开始日期 模式 = yyyy-MM-dd
+     * @apiParam {Date} [endTime] 结束日期 模式 = yyyy-MM-dd
      * @apiParam {Integer} [merchant_id] 商家id
      * @apiParam {String} [enable] 是否启用：0：禁用，1：启用
      * @apiSuccessExample {json} 成功返回:

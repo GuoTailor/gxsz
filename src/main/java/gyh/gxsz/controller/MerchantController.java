@@ -9,6 +9,7 @@ import gyh.gxsz.common.UserUtils;
 import gyh.gxsz.common.page.PageQuery;
 import gyh.gxsz.config.Constant;
 import gyh.gxsz.config.token.TokenMgr;
+import gyh.gxsz.service.MerchantCouponService;
 import gyh.gxsz.service.MerchantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -16,7 +17,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Collection;
 import java.util.Collections;
 
 /**
@@ -27,6 +27,8 @@ import java.util.Collections;
 public class MerchantController {
     @Autowired
     MerchantService merchantService;
+    @Autowired
+    private MerchantCouponService merchantCouponService;
 
     /**
      * @api {get} /merchant 获取所有商家
@@ -122,6 +124,53 @@ public class MerchantController {
     @PreAuthorize("hasRole('ADMIN')")
     public RespBody deleteMerchant(@RequestParam Integer id){
         return new RespBody<>(0, merchantService.deleteByPrimaryKey(id), "成功");
+    }
+
+    /**
+     * @api {put} /merchant/scanCode 扫码使用优惠券
+     * @apiDescription  扫码使用优惠券
+     * @apiName scanCode
+     * @apiVersion 0.0.1
+     * @apiParam {String} code 优惠券码
+     * @apiSuccessExample {json} 成功返回:
+     * {"code":0,"msg":"成功","data":null}
+     * @apiSuccessExample {json} 没有拥有该优惠券:
+     * {"code":1,"msg":"成功","data":null}
+     * @apiSuccessExample {json} 优惠券不存在:
+     * {"code":2,"msg":"成功","data":null}
+     * @apiSuccessExample {json} 优惠券不是本商家的:
+     * {"code":3,"msg":"成功","data":null}
+     * @apiSuccessExample {json} 用户不存在:
+     * {"code":4,"msg":"成功","data":null}
+     * @apiGroup merchant
+     * @apiPermission mer
+     */
+    @PutMapping("/scanCode")
+    @PreAuthorize("hasRole('MERCHANT')")
+    public RespBody scanCode(@RequestParam String code) {
+        return new RespBody<>(merchantCouponService.scanCode(code))
+                .put(0, "成功")
+                .put(1, "没有拥有该优惠券")
+                .put(2, "优惠券不存在")
+                .put(3, "优惠券不是本商家的")
+                .put(4, "用户不存在");
+    }
+
+    /**
+     * @api {get} /merchant/coupon 获取所有已使用的优惠券
+     * @apiDescription  获取所有已使用的优惠券
+     * @apiName getAllUseCoupon
+     * @apiVersion 0.0.1
+     * @apiUse PageQuery
+     * @apiSuccessExample {json} 成功返回:
+     * {"code":0,"msg":"成功","data":null}
+     * @apiGroup coupon
+     * @apiPermission token
+     */
+    @GetMapping("/coupon")
+    @PreAuthorize("hasRole('MERCHANT')")
+    public RespBody getAllUseCoupon(@Valid PageQuery pageQuery) {
+        return new RespBody<>(0, merchantCouponService.getAllUseCoupon(pageQuery), "成功");
     }
 
     /**

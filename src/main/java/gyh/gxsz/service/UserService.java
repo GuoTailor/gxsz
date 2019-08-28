@@ -35,6 +35,10 @@ public class UserService implements UserDetailsService {
         List<User> coupons = userMapper.getAll(pageQuery.buildSubSql());
         return PageView.build(page);
     }
+
+    public List<User> getAll() {
+        return userMapper.getAll(null);
+    }
     
     public int deleteByPrimaryKey(Integer id) {
         return userMapper.deleteByPrimaryKey(id);
