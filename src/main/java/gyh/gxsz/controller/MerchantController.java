@@ -32,7 +32,7 @@ public class MerchantController {
 
     /**
      * @api {get} /merchant 获取所有商家
-     * @apiDescription  获取所有商家
+     * @apiDescription 获取所有商家
      * @apiName getAllMerchant
      * @apiVersion 0.0.1
      * @apiUse PageQuery
@@ -49,7 +49,7 @@ public class MerchantController {
 
     /**
      * @api {get} /merchant/{id} 获取商家信息
-     * @apiDescription  获取商家信息
+     * @apiDescription 获取商家信息
      * @apiName getMerchant
      * @apiVersion 0.0.1
      * @apiParam {Integer} id 商家id
@@ -65,7 +65,7 @@ public class MerchantController {
 
     /**
      * @api {post} /merchant 添加商家
-     * @apiDescription  添加商家
+     * @apiDescription 添加商家
      * @apiName addMerchant
      * @apiVersion 0.0.1
      * @apiParam {String} name 商家名称
@@ -88,7 +88,7 @@ public class MerchantController {
 
     /**
      * @api {put} /merchant 修改商家
-     * @apiDescription  修改商家
+     * @apiDescription 修改商家
      * @apiName editMerchant
      * @apiVersion 0.0.1
      * @apiParam {Integer} id
@@ -111,7 +111,7 @@ public class MerchantController {
 
     /**
      * @api {delete} /merchant 删除商家
-     * @apiDescription  删除商家
+     * @apiDescription 删除商家
      * @apiName deleteMerchant
      * @apiVersion 0.0.1
      * @apiParam {Integer} id 商家id
@@ -122,13 +122,13 @@ public class MerchantController {
      */
     @DeleteMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public RespBody deleteMerchant(@RequestParam Integer id){
+    public RespBody deleteMerchant(@RequestParam Integer id) {
         return new RespBody<>(0, merchantService.deleteByPrimaryKey(id), "成功");
     }
 
     /**
      * @api {put} /merchant/scanCode 扫码使用优惠券
-     * @apiDescription  扫码使用优惠券
+     * @apiDescription 扫码使用优惠券
      * @apiName scanCode
      * @apiVersion 0.0.1
      * @apiParam {String} code 优惠券码
@@ -158,7 +158,7 @@ public class MerchantController {
 
     /**
      * @api {get} /merchant/coupon 获取所有已使用的优惠券
-     * @apiDescription  获取所有已使用的优惠券
+     * @apiDescription 获取所有已使用的优惠券
      * @apiName getAllUseCoupon
      * @apiVersion 0.0.1
      * @apiUse PageQuery
@@ -175,7 +175,7 @@ public class MerchantController {
 
     /**
      * @api {get} /merchant/login 商家登陆
-     * @apiDescription  商家登陆
+     * @apiDescription 商家登陆
      * @apiName loginMerchant
      * @apiVersion 0.0.1
      * @apiParam {String} account 账号
@@ -192,14 +192,17 @@ public class MerchantController {
     @GetMapping("/login")
     public RespBody loginMerchant(@RequestParam String account, @RequestParam String password) {
         Merchant merchant = merchantService.selectByAccount(account);
-        if (UserUtils.passwordMatches(password, merchant.getPassword())) {
-            User user = new User();
-            user.setId(merchant.getId());
-            user.setUserName(merchant.getAccount());
-            user.setRoles(Collections.singletonList((GrantedAuthority) () -> "ROLE_MERCHANT"));
-            String token = TokenMgr.createJWT(user, Constant.JWT_TTL);
-            user.setToken(token);
-            return new RespBody(0, "成功");
+        if (merchant != null) {
+            if (UserUtils.passwordMatches(password, merchant.getPassword())) {
+                User user = new User();
+                user.setId(merchant.getId());
+                user.setUserName(merchant.getAccount());
+                user.setRoles(Collections.singletonList((GrantedAuthority) () -> "ROLE_MERCHANT"));
+                String token = TokenMgr.createJWT(user, Constant.JWT_TTL);
+                user.setToken(token);
+                return new RespBody<>(0, token, "成功");
+            }
+            return new RespBody(2, "密码错误");
         }
         return new RespBody(1, "用户不存在");
     }

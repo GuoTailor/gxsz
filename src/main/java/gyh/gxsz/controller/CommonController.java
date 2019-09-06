@@ -11,6 +11,8 @@ import gyh.gxsz.config.token.CheckPOJO;
 import gyh.gxsz.config.token.TokenMgr;
 import gyh.gxsz.service.OrderService;
 import gyh.gxsz.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -29,6 +31,7 @@ import java.util.WeakHashMap;
 @RestController
 @RequestMapping("/common")
 public class CommonController {
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final UserService userService;
     private final OrderService orderService;
     private final Map<String, VerificationCode> codeCache = new WeakHashMap<>();
@@ -41,11 +44,6 @@ public class CommonController {
             this.code = code;
             this.date = date;
         }
-    }
-
-    public static class Message{
-        public String msg;
-        public List<String> numbers;
     }
 
     @Autowired
@@ -75,8 +73,15 @@ public class CommonController {
         if (user != null) {
             String code = Util.getRandomInt(4);
             codeCache.put(phone, new VerificationCode(code, new Date(System.currentTimeMillis() + 5 * 60_000)));
-            SmsSample.send(phone, code);
-            return new RespBody(0, "成功");
+            int intCode = Integer.parseInt(SmsSample.send(phone, code));
+            return new RespBody(intCode)
+                    .put(0, "成功")
+                    .put(30, "错误密码")
+                    .put(40, "账号不存在")
+                    .put(41, "余额不足")
+                    .put(43, "IP地址限制")
+                    .put(50, "内容含有敏感词")
+                    .put(51, "手机号码不正确");
         }
         return new RespBody(1, "用户不存在");
     }
@@ -96,9 +101,26 @@ public class CommonController {
      */
     @PostMapping("/sendMessage")
     @PreAuthorize("hasRole('ADMIN')")
-    public RespBody sendMessage(@RequestBody Message message) {
-        message.numbers.forEach(num -> SmsSample.sendMessage(num, "【共享书桌】" + message.msg));
-        return new RespBody(0, "成功");
+    public RespBody sendMessage(@RequestParam String msg, @RequestParam List<String> numbers) {
+        String code = "0";
+        for (String num : numbers) {
+            code = SmsSample.sendMessage(num, "【共享书桌】" + msg);
+            logger.info(num);
+        }
+        int intCode = 0;
+        try {
+            intCode = Integer.parseInt(code);
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new RespBody(intCode)
+                .put(0, "成功")
+                .put(30, "错误密码")
+                .put(40, "账号不存在")
+                .put(41, "余额不足")
+                .put(43, "IP地址限制")
+                .put(50, "内容含有敏感词")
+                .put(51, "手机号码不正确");
     }
 
     /**
@@ -200,7 +222,8 @@ public class CommonController {
      * @apiDescription  配送订单
      * @apiName orderDistribution
      * @apiVersion 0.0.1
-     * @apiUse Order
+     * @apiParam {Integer} orderId 订单id
+     * @apiParam {String} deliverymanId 配送员id
      * @apiSuccessExample {json} 成功返回:
      * {"code":0,"msg":"成功","data":null}
      * @apiGroup common
@@ -215,7 +238,7 @@ public class CommonController {
     }
 
     /**
-     * @api {get} /orders/al 获取所有订单
+     * @api {get} /common/orders/all 获取所有订单
      * @apiDescription  获取所有订单
      * @apiName getAllOrders
      * @apiVersion 0.0.1

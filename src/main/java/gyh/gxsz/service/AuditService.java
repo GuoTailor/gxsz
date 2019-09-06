@@ -8,6 +8,8 @@ import gyh.gxsz.bean.UserCoupon;
 import gyh.gxsz.common.UserUtils;
 import gyh.gxsz.common.page.PageQuery;
 import gyh.gxsz.common.page.PageView;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -29,6 +31,7 @@ import java.util.UUID;
  */
 @Service
 public class AuditService {
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
     @Value("${DIR_MAX_NUM}")
     private int dirMaxNum = 1000;
     @Value("${HEAD_FILE_PATH}")
@@ -45,7 +48,11 @@ public class AuditService {
         // 文件后缀
         String suffixName = "";
         if (fileName != null)
-            suffixName = fileName.substring(fileName.lastIndexOf("."));
+            try {
+                suffixName = fileName.substring(fileName.lastIndexOf("."));
+            } catch (StringIndexOutOfBoundsException e) {
+                logger.error(e.getMessage());
+            }
         int index = (int) Math.ceil(id / dirMaxNum);
         String indexPath = headPath + filePath + index + File.separatorChar + id + "-" + UUID.randomUUID() + suffixName;
         File file = new File(indexPath);

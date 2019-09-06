@@ -101,12 +101,6 @@ public class User extends BaseUser {
 
     @Override
     @JsonIgnore
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
-    }
-
-    @Override
-    @JsonIgnore
     public String getPassword() {
         return null;
     }
